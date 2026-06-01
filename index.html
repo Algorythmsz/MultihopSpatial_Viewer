@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MultihopSpatial — Selected Samples</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0e0e0c;
+    --paper:#f4f1ea;
+    --paper-2:#ece7dc;
+    --paper-3:#e3ddce;
+    --rule:#1a1a17;
+    --accent:#c1421f;
+    --accent-2:#1d4e3a;
+    --accent-3:#3a4ba8;
+    --accent-4:#8a6d1c;
+    --muted:#6b6960;
+    --tag-bg:#1a1a17;
+    --tag-ink:#f4f1ea;
+    --serif:'Fraunces', 'Times New Roman', serif;
+    --sans:'Inter Tight', system-ui, sans-serif;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--paper);color:var(--ink);}
+  body{
+    font-family:var(--sans);
+    line-height:1.5;
+    background-image:radial-gradient(rgba(14,14,12,0.035) 1px, transparent 1px);
+    background-size:4px 4px;
+    min-height:100vh;
+  }
+
+  .masthead{
+    border-bottom:3px double var(--rule);
+    padding:36px 48px 28px;
+    background:var(--paper);
+    position:relative;
+  }
+  .masthead::before{
+    content:"";position:absolute;
+    left:48px;right:48px;top:18px;height:1px;background:var(--rule);
+  }
+  .masthead-top{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:var(--mono);font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted);
+    margin-bottom:18px;flex-wrap:wrap;gap:8px;
+  }
+  .masthead-top span:nth-child(2){color:var(--accent);font-weight:600;}
+  .masthead h1{
+    font-family:var(--serif);font-weight:900;
+    font-size:clamp(44px,6.5vw,84px);
+    line-height:0.92;letter-spacing:-0.03em;
+    font-variation-settings:"opsz" 144;
+    margin-bottom:14px;
+  }
+  .masthead h1 em{font-style:italic;font-weight:400;color:var(--accent);}
+  .subtitle{
+    font-family:var(--serif);font-style:italic;
+    font-size:22px;color:var(--muted);
+    max-width:880px;font-variation-settings:"opsz" 48;
+  }
+  .subtitle code{font-family:var(--mono);font-size:14px;font-style:normal;background:rgba(0,0,0,0.05);padding:2px 6px;}
+  .subtitle a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor;}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:22px;
+    margin-top:24px;
+    font-family:var(--mono);font-size:11px;
+    text-transform:uppercase;letter-spacing:0.06em;
+  }
+  .meta-row > div{display:flex;gap:8px;align-items:center;}
+  .meta-row strong{color:var(--accent-2);}
+
+  .samples{padding:32px 48px 24px;}
+
+  /* composition section */
+  .composition{
+    padding:36px 48px 32px;
+    border-bottom:3px double var(--rule);
+    background:var(--paper-2);
+  }
+  .comp-h{
+    font-family:var(--serif);font-style:italic;font-weight:600;
+    font-size:24px;letter-spacing:-0.015em;
+    margin:0 0 14px;
+    font-variation-settings:"opsz" 48;
+  }
+  .comp-h:not(:first-child){margin-top:28px;}
+  .comp-h .comp-sub{
+    font-family:var(--mono);font-style:normal;font-weight:500;
+    font-size:11px;color:var(--muted);letter-spacing:0.06em;
+    text-transform:uppercase;margin-left:10px;
+  }
+
+  /* category vocabulary cards */
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:12px;
+  }
+  .cat{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    padding:12px 14px;
+    position:relative;
+    display:flex;flex-direction:column;gap:4px;
+  }
+  .cat::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:var(--cat-cl);
+  }
+  .cat-att{--cat-cl:var(--accent-4);}
+  .cat-pos{--cat-cl:var(--accent-3);}
+  .cat-rel{--cat-cl:var(--accent);}
+  .cat-tag{
+    font-family:var(--mono);font-weight:700;font-size:11px;
+    letter-spacing:0.12em;color:var(--cat-cl);
+  }
+  .cat-name{
+    font-family:var(--serif);font-style:italic;font-weight:600;
+    font-size:18px;color:var(--ink);line-height:1;
+  }
+  .cat-def{
+    font-family:var(--serif);font-size:13.5px;color:var(--muted);
+    line-height:1.4;font-variation-settings:"opsz" 14;
+  }
+
+  /* hop composition blocks */
+  .comp-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:12px;
+  }
+  .hop-block{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    padding:12px 14px;
+    position:relative;
+  }
+  .hop-block::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:var(--hop-cl);
+  }
+  .hop-block.hop1{--hop-cl:var(--accent-2);}
+  .hop-block.hop2{--hop-cl:var(--accent-4);}
+  .hop-block.hop3{--hop-cl:var(--accent);}
+  .hop-label{
+    display:flex;align-items:baseline;gap:10px;
+    font-family:var(--mono);font-size:11px;
+    color:var(--muted);letter-spacing:0.06em;
+    margin-bottom:10px;
+    padding-bottom:8px;border-bottom:1px dotted rgba(0,0,0,0.2);
+  }
+  .hop-label span{
+    font-family:var(--serif);font-style:italic;font-weight:600;
+    font-size:18px;color:var(--ink);letter-spacing:-0.01em;
+    text-transform:none;
+  }
+  .hop-row{
+    display:flex;flex-wrap:wrap;gap:14px;
+    align-items:baseline;
+    font-family:var(--mono);font-size:12px;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .hop-row:last-child{margin-bottom:0;}
+  .vw{
+    font-size:9.5px;font-weight:700;color:var(--muted);
+    letter-spacing:0.12em;text-transform:uppercase;
+    min-width:24px;
+  }
+  .cmb{display:inline-flex;align-items:baseline;gap:4px;font-weight:600;}
+  .pct{color:var(--muted);font-weight:400;font-size:10.5px;letter-spacing:0.04em;}
+  .ck{
+    display:inline-block;padding:0 4px;
+    font-size:9px;font-weight:700;letter-spacing:0.1em;
+  }
+  .ck.att{background:rgba(138,109,28,0.15);color:var(--accent-4);}
+  .ck.pos{background:rgba(58,75,168,0.15);color:var(--accent-3);}
+  .ck.rel{background:rgba(193,66,31,0.13);color:var(--accent);}
+
+  .legend{
+    display:flex;gap:18px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:10px;
+    letter-spacing:0.08em;text-transform:uppercase;
+    margin:0 0 20px;color:var(--muted);
+  }
+  .legend .l{display:inline-flex;align-items:center;gap:6px;}
+  .legend .sw{width:12px;height:12px;display:inline-block;}
+  .legend .sw.pos{background:var(--accent-3);}
+  .legend .sw.rel{background:var(--accent);}
+  .legend .sw.att{background:var(--accent-4);}
+  .legend .sw.bb{background:transparent;border:2px solid var(--accent);}
+  .cards-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(440px,1fr));
+    gap:18px;
+  }
+
+  .rcard{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    position:relative;
+    display:flex;flex-direction:column;
+    overflow:hidden;
+  }
+  .rcard::before{
+    content:"";
+    position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:var(--cl, var(--accent-2));
+    z-index:2;
+  }
+  .rcard.hop1{--cl:var(--accent-2);}
+  .rcard.hop2{--cl:var(--accent-4);}
+  .rcard.hop3{--cl:var(--accent);}
+
+  .r-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:12px 16px 10px;
+    border-bottom:1px dotted rgba(0,0,0,0.2);
+    font-family:var(--mono);font-size:11px;
+    letter-spacing:0.04em;
+  }
+  .r-head .r-row{color:var(--ink);font-weight:700;}
+  .r-head .r-id{color:var(--muted);}
+
+  .r-tags{
+    display:flex;flex-wrap:wrap;gap:4px;
+    padding:8px 16px 10px;
+    font-family:var(--mono);font-size:9.5px;
+    letter-spacing:0.08em;text-transform:uppercase;
+  }
+  .r-tags .t{padding:2px 6px;}
+  .r-tags .t.hop{background:var(--cl, var(--accent-2));color:var(--tag-ink);}
+  .r-tags .t.view{background:var(--accent-2);color:var(--tag-ink);}
+  .r-tags .t.res{
+    background:transparent;color:var(--ink);
+    border:1px solid var(--rule);
+  }
+  .r-tags .t.path{
+    background:#fcfaf4;color:var(--muted);
+    border:1px solid rgba(0,0,0,0.15);
+    font-weight:600;
+  }
+
+  .r-img-wrap{
+    position:relative;
+    background:var(--paper-3);
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    min-height:240px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .r-img-wrap img{
+    width:100%;height:auto;
+    max-height:440px;
+    object-fit:contain;
+    display:block;
+  }
+  .r-img-wrap .bbox-svg{
+    position:absolute;top:0;left:0;width:100%;height:100%;
+    pointer-events:none;
+  }
+  .r-img-wrap .bbox-svg rect{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:4;
+    stroke-dasharray:8 4;
+    vector-effect:non-scaling-stroke;
+  }
+  .r-img-wrap .img-meta{
+    position:absolute;left:8px;top:8px;
+    background:var(--ink);color:var(--paper);
+    font-family:var(--mono);font-size:9px;font-weight:600;
+    padding:2px 7px;letter-spacing:0.1em;text-transform:uppercase;
+    z-index:3;
+  }
+  .r-img-wrap .img-fail{
+    font-family:var(--mono);font-size:11px;
+    color:var(--muted);letter-spacing:0.06em;
+    text-align:center;padding:30px 18px;line-height:1.7;
+  }
+  .r-img-wrap .img-fail code{
+    background:rgba(0,0,0,0.05);padding:1px 5px;font-size:10px;
+  }
+  .r-img-wrap .img-fail b{display:block;margin-bottom:6px;color:var(--ink);}
+
+  .r-body{padding:14px 16px;}
+  .r-body .field{margin-bottom:10px;}
+  .r-body .field:last-child{margin-bottom:0;}
+  .r-body .lbl{
+    font-family:var(--mono);font-size:9.5px;
+    letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;
+    display:block;margin-bottom:4px;
+  }
+
+  .r-question{
+    font-family:var(--serif);
+    font-size:15.5px;line-height:1.45;
+    color:var(--ink);
+    font-variation-settings:"opsz" 14;
+  }
+  .r-question mark.pos{
+    background:rgba(58,75,168,0.15);
+    color:var(--accent-3);font-weight:600;font-style:italic;
+    padding:0 3px;
+  }
+  .r-question mark.rel{
+    background:rgba(193,66,31,0.13);
+    color:var(--accent);font-weight:600;font-style:italic;
+    padding:0 3px;
+  }
+  .r-question mark.att{
+    background:rgba(138,109,28,0.15);
+    color:var(--accent-4);font-weight:600;font-style:italic;
+    padding:0 3px;
+  }
+  .r-question .choice{
+    font-family:var(--mono);font-size:12.5px;
+    color:var(--ink);font-style:normal;
+    background:#fcfaf4;
+    border-left:2px solid var(--muted);
+    padding:6px 8px;
+    display:block;margin-top:8px;
+    line-height:1.55;
+  }
+
+  .r-answer{
+    font-family:var(--mono);font-size:13px;
+    color:var(--ink);font-weight:700;
+    background:rgba(193,66,31,0.10);
+    border-left:3px solid var(--accent);
+    padding:6px 10px;
+  }
+  .r-answer .gt{
+    color:var(--accent);font-size:9px;font-weight:700;
+    letter-spacing:0.12em;margin-right:8px;
+  }
+
+  .r-bbox{
+    font-family:var(--mono);font-size:10.5px;
+    color:var(--ink);
+    background:rgba(0,0,0,0.025);
+    padding:6px 8px;
+    border-left:2px solid var(--accent);
+    line-height:1.5;
+  }
+
+  footer{
+    margin-top:32px;
+    padding:20px 48px;
+    border-top:3px double var(--rule);
+    font-family:var(--mono);
+    font-size:11px;color:var(--muted);
+    letter-spacing:0.04em;
+    background:var(--paper-2);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  }
+  footer a{color:var(--accent);text-decoration:none;}
+  footer a:hover{text-decoration:underline;}
+
+  @media (max-width: 900px){
+    .masthead, .composition, .samples, footer{padding-left:24px;padding-right:24px;}
+    .cards-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-top">
+    <span>MultihopSpatial</span>
+    <span>Seungwon Park · 2026</span>
+  </div>
+  <h1>MultihopSpatial<br><em>selected samples</em></h1>
+  <p class="subtitle">
+    Three samples per hop from <code>etri-vilab/MultihopSpatial</code>, spanning ego/exo views and the full POS/REL/ATT tag vocabulary. <a href="https://huggingface.co/datasets/etri-vilab/MultihopSpatial" target="_blank">dataset</a> · <a href="https://arxiv.org/abs/2603.18892" target="_blank">arXiv</a>.
+  </p>
+  <div class="meta-row">
+    <div><strong>TEST</strong> 4,500</div>
+    <div><strong>TRAIN</strong> 6,791</div>
+    <div><strong>IMAGES</strong> 3,563 (COCO + PACO-Ego4D)</div>
+    <div><strong>HOPS</strong> 1 · 2 · 3 · balanced</div>
+  </div>
+</header>
+
+<section class="composition">
+  <h2 class="comp-h">Category vocabulary</h2>
+  <div class="cat-grid">
+    <div class="cat cat-att">
+      <span class="cat-tag">ATT</span>
+      <span class="cat-name">Attribute</span>
+      <span class="cat-def">Visual properties — texture, shape, color, pattern, material.</span>
+    </div>
+    <div class="cat cat-pos">
+      <span class="cat-tag">POS</span>
+      <span class="cat-name">Position</span>
+      <span class="cat-def">Spatial location and orientation — left, right, behind, in front of.</span>
+    </div>
+    <div class="cat cat-rel">
+      <span class="cat-tag">REL</span>
+      <span class="cat-name">Relation</span>
+      <span class="cat-def">Spatial relationship — close, far, high, low.</span>
+    </div>
+  </div>
+
+  <h2 class="comp-h">Sample composition <span class="comp-sub">test split · 4,500 total · 750 ego + 750 exo per hop</span></h2>
+  <div class="comp-grid">
+    <div class="hop-block hop1">
+      <div class="hop-label"><span>1-hop</span> 1,500</div>
+      <div class="hop-row"><span class="vw">ego</span><span class="cmb"><span class="ck pos">POS</span> 285 <span class="pct">19.0%</span></span><span class="cmb"><span class="ck rel">REL</span> 465 <span class="pct">31.0%</span></span></div>
+      <div class="hop-row"><span class="vw">exo</span><span class="cmb"><span class="ck pos">POS</span> 197 <span class="pct">13.1%</span></span><span class="cmb"><span class="ck rel">REL</span> 554 <span class="pct">36.9%</span></span></div>
+    </div>
+    <div class="hop-block hop2">
+      <div class="hop-label"><span>2-hop</span> 1,500</div>
+      <div class="hop-row"><span class="vw">ego</span><span class="cmb"><span class="ck att">ATT</span>+<span class="ck pos">POS</span> 215 <span class="pct">14.3%</span></span><span class="cmb"><span class="ck att">ATT</span>+<span class="ck rel">REL</span> 239 <span class="pct">15.9%</span></span><span class="cmb"><span class="ck pos">POS</span>+<span class="ck rel">REL</span> 296 <span class="pct">19.7%</span></span></div>
+      <div class="hop-row"><span class="vw">exo</span><span class="cmb"><span class="ck att">ATT</span>+<span class="ck pos">POS</span> 182 <span class="pct">12.1%</span></span><span class="cmb"><span class="ck att">ATT</span>+<span class="ck rel">REL</span> 207 <span class="pct">13.8%</span></span><span class="cmb"><span class="ck pos">POS</span>+<span class="ck rel">REL</span> 362 <span class="pct">24.1%</span></span></div>
+    </div>
+    <div class="hop-block hop3">
+      <div class="hop-label"><span>3-hop</span> 1,500</div>
+      <div class="hop-row"><span class="vw">ego</span><span class="cmb"><span class="ck att">ATT</span>+<span class="ck pos">POS</span>+<span class="ck rel">REL</span> 750 <span class="pct">50.0%</span></span></div>
+      <div class="hop-row"><span class="vw">exo</span><span class="cmb"><span class="ck att">ATT</span>+<span class="ck pos">POS</span>+<span class="ck rel">REL</span> 750 <span class="pct">50.0%</span></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="samples">
+  <div class="legend">
+    <span class="l"><span class="sw pos"></span>POS</span>
+    <span class="l"><span class="sw rel"></span>REL</span>
+    <span class="l"><span class="sw att"></span>ATT</span>
+    <span class="l"><span class="sw bb"></span>GT bbox</span>
+  </div>
+  <div class="cards-grid" id="grid"></div>
+</section>
+
+<footer>
+  <span>MultihopSpatial Samples</span>
+  <span><a href="https://huggingface.co/datasets/etri-vilab/MultihopSpatial" target="_blank">etri-vilab/MultihopSpatial</a> · Apache-2.0</span>
+  <span>Seungwon Park · 2026.06</span>
+</footer>
+
+<script>
+// ============================================================================
+// Nine hand-picked samples — three per hop, balancing ego/exo and tag types.
+// All fields verbatim from multihop_test_4500.json (etri-vilab/MultihopSpatial).
+// ============================================================================
+const SAMPLES = [
+  // ===== 1-hop =====
+  {
+    id: 1, image_path: "000000303219.jpg", image_resolution: "640x480",
+    view: "ego", hop: "1hop",
+    question_tag: "From the perspective of the woman holding the remote control, which object is <POS>on her right</POS>? <choice>(a) cat on the cushion, (b) glass bottle, (c) frame of the reed picture, (d) dark brown armchair</choice> And provide the bounding box coordinate of the region related to your answer.",
+    answer: "(c) frame of the reed picture",
+    bbox: [52.86, 38.7, 70.95, 97.83],
+  },
+  {
+    id: 2, image_path: "000000022612.jpg", image_resolution: "640x429",
+    view: "ego", hop: "1hop",
+    question_tag: "From the perspective of the person wearing gray clothes, which object is <REL>closest</REL> to them? <choice>(a) bottle with water, (b) labeled bottle, (c) cup with orange liquid, (d) pink paper</choice> And provide the bounding box coordinate of the region related to your answer.",
+    answer: "(a) bottle with water",
+    bbox: [23.09, -7.28, 136.34, 202.1],
+  },
+  {
+    id: 753, image_path: "000000243824.jpg", image_resolution: "640x480",
+    view: "exo", hop: "1hop",
+    question_tag: "which object is <POS>on the right side of</POS> the image? <choice>(a) grinder, (b) fork, (c) water bottle, (d) water cup</choice> And provide the bounding box coordinate of the region related to your answer.",
+    answer: "(b) fork",
+    bbox: [594.23, 181.35, 39.42, 106.26],
+  },
+
+  // ===== 2-hop =====
+  {
+    id: 1502, image_path: "000000141342.jpg", image_resolution: "640x431",
+    view: "ego", hop: "2hop",
+    question_tag: "From the perspective of the man wearing red clothes, which object <POS>to his front left</POS> is <REL>highest</REL>? <choice>(a) black plastic bag, (b) white long-sleeve top, (c) hanging clock, (d) purple top</choice> And provide the bounding box coordinate of the region related to your answer.",
+    answer: "(b) white long-sleeve top",
+    bbox: [508.52, 168.84, 88.56, 112.86],
+  },
+  {
+    id: 1503, image_path: "000000151594.jpg", image_resolution: "640x426",
+    view: "ego", hop: "2hop",
+    question_tag: "From the perspective of the woman wearing a scarf, which <ATT>person with one bag</ATT> is <POS>to her right</POS>? <choice>(a) person in white pants, (b) person in red bottoms, (c) person in a brown coat, (d) person in a long black vest</choice> And provide the bounding box coordinate of the region related to your answer.",
+    answer: "(a) person in white pants",
+    bbox: [279.39, 117.8, 31.15, 103.42],
+  },
+  {
+    id: 2252, image_path: "000000035795.jpg", image_resolution: "480x640",
+    view: "exo", hop: "2hop",
+    question_tag: "What is the <ATT>white object</ATT> <POS>on the right side of</POS> the image? <choice>(a) bag, (b) paper wrapper, (c) sunglasses, (d) necklace</choice> And provide the bounding box coordinate of the region related to your answer.",
+    answer: "(b) paper wrapper",
+    bbox: [266.73, 282.13, 116.57, 198.98],
+  },
+
+  // ===== 3-hop =====
+  {
+    id: 2791, image_path: "000000216026.jpg", image_resolution: "640x360",
+    view: "ego", hop: "3hop",
+    question_tag: "From the perspective of the person, which <ATT>round or cylindrical object</ATT> <POS>in front of</POS> him is <REL>closest</REL>? <choice>(a) white plate, (b) water bottle, (c) pizza tray, (d) number tag</choice> And provide the bounding box coordinate of the region related to your answer.",
+    answer: "(b) water bottle",
+    bbox: [408.43, 26.31, 61.35, 98.48],
+  },
+  {
+    id: 2792, image_path: "000000033325.jpg", image_resolution: "500x375",
+    view: "ego", hop: "3hop",
+    question_tag: "From the perspective of the woman in the black short-sleeve t-shirt, which <ATT>square or rectangular object</ATT> <POS>to the left of</POS> her is <REL>smallest</REL>? <choice>(a) blue carrier, (b) pink carrier, (c) wall advertisement, (d) bench</choice> And provide the bounding box coordinate of the region related to your answer.",
+    answer: "(a) blue carrier",
+    bbox: [282.37, 256.61, 51.91, 63.57],
+  },
+  {
+    id: 3512, image_path: "000000502300.jpg", image_resolution: "640x480",
+    view: "exo", hop: "3hop",
+    question_tag: "Which <ATT>square or rectangular object</ATT> <POS>on the left side of</POS> the image is <REL>closest</REL> to the table lamp? <choice>(a) TV, (b) mouse pad, (c) closed laptop, (d) black phone with keyboard</choice> And provide the bounding box coordinate of the region related to your answer.",
+    answer: "(d) black phone with keyboard",
+    bbox: [62.48, 409.38, 56.81, 23.89],
+  },
+];
+
+// Three image source tiers, tried in order via onerror chain
+const IMG_TIERS = [
+  fn => `./images/${fn}`,
+  fn => `https://images.cocodataset.org/train2017/${fn}`,
+  fn => `https://images.cocodataset.org/val2017/${fn}`,
+];
+
+function esc(s){
+  return String(s ?? "").replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+}
+
+function parseRes(s){
+  const m = String(s||"").match(/(\d+)\s*x\s*(\d+)/i);
+  return m ? [parseInt(m[1],10), parseInt(m[2],10)] : [640, 480];
+}
+
+function renderQuestion(qTag){
+  let html = esc(qTag);
+  html = html.replace(/&lt;ATT&gt;([\s\S]+?)&lt;\/ATT&gt;/g, '<mark class="att">$1</mark>');
+  html = html.replace(/&lt;POS&gt;([\s\S]+?)&lt;\/POS&gt;/g, '<mark class="pos">$1</mark>');
+  html = html.replace(/&lt;REL&gt;([\s\S]+?)&lt;\/REL&gt;/g, '<mark class="rel">$1</mark>');
+  let choiceBlock = "";
+  html = html.replace(/&lt;choice&gt;([\s\S]+?)&lt;\/choice&gt;/g, (_, inner) => {
+    choiceBlock = `<span class="choice">${inner.trim()}</span>`;
+    return "";
+  });
+  html = html.replace(/\s*And provide the bounding box coordinate of the region related to your answer\.?/i, "");
+  return html.trim() + choiceBlock;
+}
+
+function bboxSvg(bbox, w, h){
+  if(!Array.isArray(bbox) || bbox.length !== 4) return "";
+  const [x, y, bw, bh] = bbox;
+  return `<svg class="bbox-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <rect x="${x}" y="${y}" width="${bw}" height="${bh}"></rect>
+  </svg>`;
+}
+
+function buildCard(s, idx){
+  const [w, h] = parseRes(s.image_resolution);
+  const tier0 = IMG_TIERS[0](s.image_path);
+  const tier1 = IMG_TIERS[1](s.image_path);
+  const tier2 = IMG_TIERS[2](s.image_path);
+  const failBlock = `<div class="img-fail"><b>image not found</b><code>${esc(s.image_path)}</code></div>`;
+  const hopClass = s.hop.startsWith("1") ? "hop1" : s.hop.startsWith("2") ? "hop2" : "hop3";
+  return `
+  <article class="rcard ${hopClass}">
+    <div class="r-head">
+      <div class="r-row">${esc(s.hop)} · ${esc(s.view)}</div>
+      <div class="r-id">id ${s.id}</div>
+    </div>
+    <div class="r-tags">
+      <span class="t hop">${esc(s.hop)}</span>
+      <span class="t view">${esc(s.view)}</span>
+      <span class="t path">${esc(s.image_path)}</span>
+    </div>
+    <div class="r-img-wrap">
+      <span class="img-meta">${w}×${h}</span>
+      <img loading="lazy"
+           src="${esc(tier0)}"
+           data-tier="0"
+           data-tier1="${esc(tier1)}"
+           data-tier2="${esc(tier2)}"
+           data-failhtml='${failBlock.replace(/'/g,"&#39;")}'
+           alt="image ${s.id}"
+           onerror="onImgErr(this)">
+      ${bboxSvg(s.bbox, w, h)}
+    </div>
+    <div class="r-body">
+      <div class="field">
+        <span class="lbl">question</span>
+        <div class="r-question">${renderQuestion(s.question_tag)}</div>
+      </div>
+      <div class="field">
+        <span class="lbl">answer</span>
+        <div class="r-answer"><span class="gt">GT</span>${esc(s.answer)}</div>
+      </div>
+      <div class="field">
+        <span class="lbl">bbox · [x, y, w, h]</span>
+        <div class="r-bbox">${s.bbox.map(v => Number(v).toFixed(2)).join(", ")}</div>
+      </div>
+    </div>
+  </article>`;
+}
+
+window.onImgErr = function(imgEl){
+  const tier = parseInt(imgEl.getAttribute('data-tier') || '0', 10);
+  if(tier === 0){
+    const next = imgEl.getAttribute('data-tier1');
+    if(next){ imgEl.setAttribute('data-tier','1'); imgEl.src = next; return; }
+  } else if(tier === 1){
+    const next = imgEl.getAttribute('data-tier2');
+    if(next){ imgEl.setAttribute('data-tier','2'); imgEl.src = next; return; }
+  }
+  // All tiers exhausted
+  const wrap = imgEl.closest('.r-img-wrap');
+  const failHTML = imgEl.getAttribute('data-failhtml') || '<div class="img-fail">image not found</div>';
+  if(wrap){
+    wrap.querySelectorAll('img, svg.bbox-svg').forEach(n => n.remove());
+    wrap.insertAdjacentHTML('beforeend', failHTML);
+  }
+};
+
+document.getElementById('grid').innerHTML = SAMPLES.map(buildCard).join('');
+</script>
+</body>
+</html>
