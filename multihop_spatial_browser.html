@@ -230,8 +230,8 @@ DATA.forEach((c, i) => {
 
 function imgFallback(fn) {
   return [`./images/${fn}`,
-          `https://images.cocodataset.org/train2017/${fn}`,
-          `https://images.cocodataset.org/val2017/${fn}`];
+          `http://images.cocodataset.org/train2017/${fn}`,
+          `http://images.cocodataset.org/val2017/${fn}`];
 }
 function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function renderQuestionTag(qtag) {
