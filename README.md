@@ -1,80 +1,63 @@
-# MultihopSpatial
+# MultihopSpatial Viewer
 
-**Multi-hop Compositional Spatial Reasoning Benchmark for Vision-Language Models**
+An interactive I/O browser for the **MultihopSpatial** benchmark test set (4,500 samples).  
+This repository is an unofficial viewer — it is not affiliated with the original authors.
 
-> Youngwan Lee, Soojin Jang, Yoorhim Cho, Seunghwan Lee, Yong-Ju Lee, Sung Ju Hwang
-> KAIST · ETRI · *arXiv 2603.18892* (March 2026)
-
-**[📄 Paper](https://arxiv.org/abs/2603.18892)** · **[🌐 Project Page](https://youngwanlee.github.io/multihopspatial)** · **[🔍 I/O Browser](https://algorythmsz.github.io/MultihopSpatial_Viewer/)**
+**[🔍 Open Viewer](https://algorythmsz.github.io/MultihopSpatial_Viewer/)**
 
 ---
 
-## Overview
+## Original Benchmark
 
-Existing spatial reasoning benchmarks focus on elementary single-hop relations, overlooking the **multi-hop compositional reasoning** and **precise visual grounding** required in real-world embodied scenarios. MultihopSpatial addresses this gap with:
+> **MultihopSpatial: Multi-hop Compositional Spatial Reasoning Benchmark for Vision-Language Model**  
+> Youngwan Lee, Soojin Jang, Yoorhim Cho, Seunghwan Lee, Yong-Ju Lee, Sung Ju Hwang  
+> arXiv:2603.18892 (March 2026)
 
-- **4,500 test QA pairs** — fully balanced across hop levels and viewpoints
-- **Multi-hop queries** composing 1–3 spatial reasoning steps
-- **Joint evaluation** of answer selection *and* bounding box localization (Acc@50IoU)
-- **37 VLMs evaluated**, showing compositional spatial reasoning remains a formidable challenge
+**[📄 Paper](https://arxiv.org/abs/2603.18892)** · **[🌐 Project Page](https://youngwanlee.github.io/multihopspatial)**
 
----
+### Motivation
 
-## Dataset Statistics
+> "Existing benchmarks predominantly focus on elementary, single-hop relations, neglecting the multi-hop compositional reasoning and precise visual grounding essential for real-world scenarios." — §1
 
-| Split | Samples |
+MultihopSpatial addresses this gap by requiring models to jointly perform **multi-step spatial reasoning** and **precise bounding box localization** in a single question.
+
+### Dataset Statistics
+
+| | |
 |---|---|
-| **Test** | 4,500 |
-| **Train** (MultihopSpatial-Train) | 6,791 |
-| Unique images | 3,563 |
-
-**Balance:** 1,500 questions per hop level × 750 ego-centric + 750 exo-centric  
-**Inter-rater agreement:** Krippendorff's α = 0.90  
-**Image sources:** COCO, PACO-Ego4D
-
----
-
-## Task Design
+| Test QA pairs | **4,500** (perfectly balanced) |
+| Training corpus (MultihopSpatial-Train) | **6,791** samples |
+| Unique images | **3,563** |
+| Hop levels | **1 / 2 / 3** |
+| Per hop | 750 ego-centric + 750 exo-centric = **1,500** |
+| Inter-rater agreement | Krippendorff's α = **0.90** |
+| Image sources | COCO, PACO-Ego4D |
 
 ### Spatial Concept Tags
 
-Each question is annotated with one or more of three spatial reasoning primitives:
+Each question is annotated with one or more primitives:
 
-| Tag | Type | Example |
+| Tag | Type | Example phrases |
 |---|---|---|
-| **POS** | Positional relation | *behind*, *on the left side*, *in front of* |
-| **REL** | Relative distance / comparison | *closest*, *farthest*, *largest*, *lowest* |
-| **ATT** | Object attribute | *round*, *white*, *rectangular*, *silver* |
+| **POS** | Positional relation | *behind, on the left side, in front of* |
+| **REL** | Relative distance / comparison | *closest, farthest, largest, lowest* |
+| **ATT** | Object attribute | *round, white, rectangular, silver* |
 
-### Hop Levels
+- **1-hop:** single primitive (POS or REL)
+- **2-hop:** two primitives combined (ATT+POS, ATT+REL, or POS+REL)
+- **3-hop:** all three (ATT + POS + REL)
 
-| Hop | Composition | Viewpoints | Count |
-|---|---|---|---|
-| **1-hop** | POS *or* REL | ego + exo | 1,500 |
-| **2-hop** | ATT+POS, ATT+REL, *or* POS+REL | ego + exo | 1,500 |
-| **3-hop** | ATT + POS + REL | ego + exo | 1,500 |
-
-### Question Format
-
-Each sample is a 4-option MCQ paired with a bounding box localization task:
-
-> *"From the perspective of the woman wearing a gray T-shirt, which object **behind** the woman is **farthest** from her? (a) white dishcloth (b) kettle (c) faucet (d) flowerpot — And provide the bounding box coordinate of the region related to your answer."*
-
----
-
-## Evaluation Metrics
+### Evaluation Metrics
 
 | Metric | Definition |
 |---|---|
-| **MCQ Accuracy** | Standard multiple-choice correctness |
+| **MCQ Accuracy** | Standard multiple-choice correctness (4 options) |
 | **Acc@50IoU** | Correct answer *and* IoU(predicted bbox, GT bbox) ≥ 0.5 |
-| **Avg. IoU** | Mean IoU computed over MCQ-correct samples |
+| **Avg. IoU** | Mean IoU over MCQ-correct samples only |
 
-Acc@50IoU is the primary metric — it penalizes models that select the right answer without accurate spatial localization.
+> "The metric penalizes models that select the right answer without accurate spatial localization." — §3
 
----
-
-## Key Findings (37 VLMs evaluated)
+### Results (37 VLMs evaluated)
 
 | Model | MCQ Acc | Acc@50IoU |
 |---|---|---|
@@ -82,31 +65,15 @@ Acc@50IoU is the primary metric — it penalizes models that select the right an
 | Qwen3-VL-32B-Thinking | 46.8% | 37.4% |
 | GLM-4.6V | 43.2% | 35.2% |
 
-- **Grounding gap:** Average ungrounded ratio reaches **59%** — models frequently select the correct answer but fail to localize it
-- **Ego-centric floor:** Even strong models hit a 20–25% floor on ego-centric tasks, masking real capability differences
-- **3-hop hardness:** Only 3 of 37 models exceed the 25% random baseline on 3-hop ego-centric samples
-- **Encoder bottleneck:** Vision encoder capacity matters more than LM size; small fixed encoders saturate early in grounding performance
+> "Compositional spatial reasoning remains a formidable challenge … average ungrounded ratio reaches 59%." — §4
+
+For full results across all 37 models, see the [paper](https://arxiv.org/abs/2603.18892) and [project page](https://youngwanlee.github.io/multihopspatial).
 
 ---
 
-## Training Corpus & Post-training
+## Viewer Usage
 
-GRPO fine-tuning on MultihopSpatial-Train (Qwen3-VL-4B):
-
-| | Before | After |
-|---|---|---|
-| MCQ Accuracy | 37.8% | 62.9% |
-| Acc@50IoU | 31.0% | 53.8% |
-| CALVIN task completion | — | +0.23 avg |
-| LIBERO success rate | 35.8% | 40.0% |
-
-Spatial reasoning gains transfer to downstream embodied manipulation tasks.
-
----
-
-## Browser Usage
-
-Open `index.html` after placing images in `./images/`:
+Open `index.html` locally after placing the images in `./images/`:
 
 ```
 images/
@@ -115,6 +82,6 @@ images/
 index.html
 ```
 
-Images load from `./images/` first, then fall back to COCO dataset URLs.
+Images are loaded from `./images/{filename}` first, then fallen back to COCO dataset URLs.
 
 **Controls:** `←` / `→` browse samples · `↑` / `↓` switch category · `1`–`6` jump · **▦ gallery** toggle grid view
